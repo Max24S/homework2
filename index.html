@@ -59,7 +59,18 @@
         <button @click="clear()">Очистить input</button>
     </div>
     <div id="task6">
-
+    </div>
+    <div id="task8">
+        <p>
+            <input type="text" v-model="newCar" />
+            <button v-on:click="cars.push(newCar)">Добавить</button>
+        </p>
+        <ul>
+          <li v-for="(car, index) in cars">
+          <p>{{ car }} <button @click="cars.splice(index, 1)">Удалить</button></p>
+   
+        </ul>
+        <button @click="destroy()">Удалить объект Vue </button>
     </div>
     <script src="https://unpkg.com/vue"></script>
     <script>
@@ -167,6 +178,40 @@
                         this.surname=this.surname.slice(0,this.surname.length-1);
                         this.war2=true;
                     }
+                }
+            }
+        })
+        let tsk8=new Vue({
+            el:"#task8",
+            data:{ newCar: '',
+            cars: ['BMW']},
+            beforeCreate(){
+                console.log('before Create');
+            },
+            created(){
+                console.log("created");
+            },
+            beforeMount(){
+                console.log("Before Mount");
+            },
+            mounted(){
+                console.log("Mounted");
+            },
+            beforeUpdate(){
+                console.log("Before Update")
+            },
+            updated(){
+                console.log("Updated");
+            },
+            beforeDestroy(){
+                console.log("Before Destroy");
+            },
+            destroyed(){
+                console.log("Destroyed");
+            },
+            methods:{
+                destroy(){
+                    this.$destroy()
                 }
             }
         })
