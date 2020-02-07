@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Dz2</title>
+</head>
+<body>
+    <div id="task1and6">
+        <p>Counter={{counter}}</p>
+        <p v-if="counter==0">значение равно {{counter}}</p>
+        <p v-else-if="counter>3&&counter<5">Значение больше 3</p>
+        <p v-else-if="counter==5">Значение равно==5</p>
+        <p v-else>Значение равно {{counter}}</p> 
+        <!-- используем ref к заданию 6 -->
+        <button ref="visible" @click="add()">Введите</button>
+    </div>
+    <div id="task2">
+        <ul>
+            <li v-for="(car,index) in array">порядковый номер элемента массива:{{index}} Машина:{{car}}</li>
+        </ul>
+        <p>Вывести 20 элементов</p>
+        <ul>
+            <li v-for="i in 20">{{i}}</li>
+        </ul>
+        <p>Вывести объект</p>
+        <ul>
+            <li v-for="(elements,key,index) in obj">{{index}}-{{key}} -{{elements}}</li>
+        </ul>
+        {{value_input1}}<input type="text" v-model="model">
+        {{value_input2}}<input type="number"v-model="price">
+        <ul>
+            
+            <li v-for="(i) in array_cars">Модель:{{i.model}} Цена:{{i.price}}</li>
+        </ul>
+        <button @click=" array_cars.push({'model':model,'price':price})">Добавить</button>
+    </div>
+    <div id="task34">
+        <p>Конвертер гривны к валюте(долар,рубли,евро)</p>
+        <input type="number" v-model="UAN">
+        <select v-model="valuet" name="" id="">
+           <option v-for="(mn,key) in val_money">{{key}}</option> 
+        </select>
+        <p>{{computation}}</p>
+        <div v-if="show_div">
+           watch is work
+        </div>
+    </div>
+    <div id="task5">
+        <input type="text" v-model="value">
+        <button @click="add()">Добавить</button>
+    </div>
+    <div id="task51">
+        <ul>
+            <li v-for="(name,index) in array_names">{{index}}-{{name}}</li>
+        </ul>
+        <button @click="clear()">Очистить input</button>
+    </div>
+    <div id="task6">
+
+    </div>
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+        let tsk1 = new Vue({
+            el: '#task1and6',
+            data: {
+                counter:0
+            },
+            methods :{
+                add(){
+                    console.log(this.counter);
+                    this.counter++;
+                    if(this.counter==20){
+                        alert("Stop click this button");
+                        this.$refs.visible.style.visibility="hidden";
+                    }
+                }
+            } 
+        });
+        let tks2 = new Vue({
+            el: '#task2',
+            data: {
+                array:["car1","car2","car3"],
+                value_input1:"Введите модель машины",
+                value_input2:"Введите стоимость машины в $",
+                model:"",
+                price:"",
+                obj:{
+                    name:"Max",
+                    age:20,
+                    city:"Kramatorsk"
+                },
+                array_cars:[]
+            },
+        });
+        let tsk34=new Vue({
+            el: '#task34',
+            data: {
+                valuet:"USD",
+                val_money:{
+                    "USD":24.480,
+                    "EUR":26.900,
+                    "RUB":0.370
+                },
+                UAN:0,
+                i:0,
+                show_div:false,
+            },
+            computed :{
+                computation(){
+                    if(+this.UAN){
+                    return +this.UAN*this.val_money[this.valuet];}
+                }
+            },
+            watch: {
+                UAN(){     
+                this.show_div=true;
+                console.log(this.UAN);
+                }
+            }
+        })
+        let tks5 = new Vue({
+            el: '#task5',
+            data: {
+                value:""
+            },
+            methods:{
+                add(){
+                    tks51.array_names.push(tks5.value);
+                }
+            }
+        });
+        let tks51 = new Vue({
+            el: '#task51',
+            data: {
+                array_names:[]
+            },
+            methods:{
+                clear(){
+                    tks5.value="";  
+                }
+            }
+        });
+        let tsk6=new Vue({
+            el:"#task6",
+            data:{
+                name:"",
+                surname:"",
+                value:"",
+                war1:false,
+                war2:false
+            },
+            template:'<div><input type="text" @keyup="warningname()" v-model="name"><input type="text" @keyup="warningsurname()" v-model="surname"><div v-if="war1">Цифры в имени вводить не нужно</div><div v-if="war2">Цифры в фамилии не нужно вводить</div><div v-if="name && surname&&!war1&&!war2"><p>Имя:{{name}}</p><p>Фамилия:{{surname}}</p></div></div>',
+            methods:{
+                warningname(){
+                    this.war1=false;
+                    if(+this.name[this.name.length-1]){
+                        this.name=this.name.slice(0,this.name.length-1);
+                        this.war1=true;
+                    }
+                },
+                warningsurname(){
+                    this.war2=false;
+                    if(+this.surname[this.surname.length-1]){
+                        this.surname=this.surname.slice(0,this.surname.length-1);
+                        this.war2=true;
+                    }
+                }
+            }
+        })
+       
+    </script>
+</body>
+</html> 
